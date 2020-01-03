@@ -1,6 +1,7 @@
 package com.nevermore.androidplay
 
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.nevermore.androidplay.data.ProjectCategoryBean
@@ -19,48 +20,39 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        tv_text.text = "XXX"
-
-        tv_text.setOnClickListener {
-
-            val appService = RetrofitHelper.getService()
-
-            appService.getProjectCategory()
-                .enqueue(object : Callback<ResponseEntity<ProjectCategoryBean>> {
-                    override fun onFailure(
-                        call: Call<ResponseEntity<ProjectCategoryBean>>,
-                        t: Throwable
-                    ) {
-                        Log.i(TAG, t.message?:"ee")
-                    }
-
-                    override fun onResponse(
-                        call: Call<ResponseEntity<ProjectCategoryBean>>,
-                        response: Response<ResponseEntity<ProjectCategoryBean>>
-                    ) {
-                        if (response.isSuccessful) {
-                            response.body()?.apply {
-                                this.errorCode
-                                this.data
-                                Log.i(TAG, "data:$data")
-                            }
-                        }
-                    }
-
-                })
-//            val register = RetrofitHelper.getService().register("xct123", "cccccc", "cccccc")
-//            register.enqueue(object : Callback<String> {
-//                override fun onFailure(call: Call<String>, t: Throwable) {
-//                    Log.i(TAG, t.message ?: "")
+//        tv_text.text = "XXX"
 //
-//                }
+//        tv_text.setOnClickListener {
 //
-//                override fun onResponse(call: Call<String>, response: Response<String>) {
+//            val appService = RetrofitHelper.getService()
 //
-//                    Log.i(TAG, response.message())
-//                }
-//            })
-        }
+//            appService.getProjectCategory()
+//                .enqueue(object : Callback<ResponseEntity<List<ProjectCategoryBean>>> {
+//                    override fun onFailure(
+//                        call: Call<ResponseEntity<List<ProjectCategoryBean>>>,
+//                        t: Throwable
+//                    ) {
+//                        Log.i(TAG, t.message ?: "empty")
+//
+//                    }
+//
+//                    override fun onResponse(
+//                        call: Call<ResponseEntity<List<ProjectCategoryBean>>>,
+//                        response: Response<ResponseEntity<List<ProjectCategoryBean>>>
+//                    ) {
+//                        response.takeIf {
+//                            it.isSuccessful
+//                        }?.apply {
+//                            val body = body()
+//                            val isMainThread = mainLooper == Looper.myLooper()
+//                            Log.i(TAG, "isMainThread:$isMainThread")
+//                        }
+//                    }
+//                })
+//
+//        }
 
     }
 }
+
+

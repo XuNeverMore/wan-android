@@ -7,15 +7,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitHelper {
 
 
-
-
-
-
-
-
     companion object {
-        @Volatile
-        private var instance: RetrofitHelper? = null
+//        @Volatile
+//        private var instance: RetrofitHelper? = null
 
 //        fun getInstance(): RetrofitHelper {
 //
