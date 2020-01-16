@@ -9,7 +9,10 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 
-
+/**
+ * 玩安卓
+ * https://www.wanandroid.com/blog/show/2
+ */
 interface AppService {
 
 
@@ -35,7 +38,6 @@ interface AppService {
 
     companion object {
         const val BASE_URL: String = "https://www.wanandroid.com"
-
 
     }
 

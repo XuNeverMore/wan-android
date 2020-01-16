@@ -19,6 +19,11 @@ class AccountViewModel(application: Application) : AndroidViewModel(application)
 
     val registerState: MutableLiveData<RegisterState> = MutableLiveData()
 
+
+    fun clearRegisterResult(){
+        registerResult.value = null
+    }
+
     fun changeContent(
         userName: String,
         password: String,
