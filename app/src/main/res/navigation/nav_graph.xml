@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/navigation" />
+        <action
+            android:id="@+id/action_homeFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
     </fragment>
     <navigation
         android:id="@+id/navigation"
@@ -32,4 +35,24 @@
             android:label="fragment_register"
             tools:layout="@layout/fragment_register" />
     </navigation>
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.nevermore.androidplay.ui.ArticleFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/home_fragment" />
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.nevermore.androidplay.ui.WebViewFragment"
+        android:label="fragment_web_view"
+        tools:layout="@layout/fragment_web_view" >
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="null" />
+        <argument
+            android:name="link"
+            app:argType="string"
+            android:defaultValue="null" />
+    </fragment>
+    <action android:id="@+id/action_global_webViewFragment" app:destination="@id/webViewFragment" />
 </navigation>

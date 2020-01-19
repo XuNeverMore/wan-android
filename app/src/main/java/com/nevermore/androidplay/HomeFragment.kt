@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.nevermore.androidplay.account.AccountViewModel
+import com.nevermore.androidplay.ui.ArticleFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
@@ -34,6 +37,12 @@ class HomeFragment : Fragment() {
             false -> "未登录"
             else -> ""
         }
+
+        view_pager.adapter =
+            PagerAdapter(this, listOf({ ArticleFragment() }, { ArticleFragment() }))
+        view_pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+
         btn_login.setOnClickListener {
             userViewModel.isLoginIn.value?.apply {
                 if (!this) {
@@ -44,5 +53,19 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    class PagerAdapter(fragment: Fragment, private val fragmentCreators: List<() -> Fragment>) :
+        FragmentStateAdapter(fragment) {
+
+        override fun getItemCount(): Int {
+            return fragmentCreators.size
+        }
+
+        override fun createFragment(position: Int): Fragment {
+            return fragmentCreators[position].invoke()
+        }
+
+
     }
 }

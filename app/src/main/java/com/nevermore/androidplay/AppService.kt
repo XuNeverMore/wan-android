@@ -1,13 +1,11 @@
 package com.nevermore.androidplay
 
+import com.nevermore.androidplay.data.ArticleData
 import com.nevermore.androidplay.data.ProjectCategoryBean
 import com.nevermore.androidplay.data.ResponseEntity
 import com.nevermore.androidplay.data.UserBean
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * 玩安卓
@@ -28,9 +26,21 @@ interface AppService {
     ): Call<ResponseEntity<UserBean>>
 
 
+    @FormUrlEncoded
     @POST("user/login")
-    fun login(@Field(value = "username") username: String,
-              @Field(value = "password") password: String)
+    fun login(
+        @Field(value = "username") username: String,
+        @Field(value = "password") password: String
+    ): Call<ResponseEntity<UserBean>>
+
+
+    /**
+     * 首页文章
+     */
+//    https://www.wanandroid.com/article/list/0/json
+
+    @GET("article/list/{page}/json")
+    fun getArticleList(@Path("page") page: Int): Call<ResponseEntity<ArticleData>>
 
 
     @GET("project/tree/json")

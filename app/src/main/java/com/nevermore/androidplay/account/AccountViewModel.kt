@@ -19,25 +19,44 @@ class AccountViewModel(application: Application) : AndroidViewModel(application)
 
     val registerState: MutableLiveData<RegisterState> = MutableLiveData()
 
+    val loginState: MutableLiveData<RegisterState> = MutableLiveData()
 
-    fun clearRegisterResult(){
+    val loginResult: MutableLiveData<Result<ResponseEntity<UserBean>>> = MutableLiveData()
+
+    val userInfo: MutableLiveData<UserBean> = MutableLiveData()
+
+
+    fun clearRegisterResult() {
         registerResult.value = null
     }
+
 
     fun changeContent(
         userName: String,
         password: String,
-        rePassword: String
+        rePassword: String? = null,
+        type: Int = 0
     ) {
-        if (!isUserNameValid(userName)) {
-            registerState.value = RegisterState(userNameError = R.string.error_username)
-        } else if (!isPasswordValid(password)) {
-            registerState.value = RegisterState(passwordError = R.string.error_password)
-        } else if (rePassword != password) {
-            registerState.value = RegisterState(rePassword = R.string.error_repassword)
+        if (type == 0) {
+            if (!isUserNameValid(userName)) {
+                registerState.value = RegisterState(userNameError = R.string.error_username)
+            } else if (!isPasswordValid(password)) {
+                registerState.value = RegisterState(passwordError = R.string.error_password)
+            } else if (rePassword != password) {
+                registerState.value = RegisterState(rePassword = R.string.error_repassword)
+            } else {
+                registerState.value = RegisterState(isValie = true)
+            }
         } else {
-            registerState.value = RegisterState(isValie = true)
+            if (!isUserNameValid(userName)) {
+                loginState.value = RegisterState(userNameError = R.string.error_username)
+            } else if (!isPasswordValid(password)) {
+                loginState.value = RegisterState(passwordError = R.string.error_password)
+            } else {
+                loginState.value = RegisterState(isValie = true)
+            }
         }
+
 
     }
 
@@ -59,8 +78,23 @@ class AccountViewModel(application: Application) : AndroidViewModel(application)
                     override fun onResult(result: Result<ResponseEntity<UserBean>>) {
                         registerResult.value = result
                     }
+
                 })
         }
+
+    }
+
+    fun login(userName: String, password: String) {
+        RetrofitHelper.getService().login(userName, password)
+            .enqueue(object : ResultCallback<ResponseEntity<UserBean>>() {
+                override fun onResult(result: Result<ResponseEntity<UserBean>>) {
+                    loginResult.value = result
+                    if (result is Result.Success) {
+                        userInfo.value = result.t.data
+                        isLoginIn.value = true
+                    }
+                }
+            })
 
     }
 
